@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  postgres-user:
+    image: postgres:16.6
+    container_name: postgres-user
+    environment:
+      POSTGRES_USER: userr
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_service
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql

@@ -1,0 +1,89 @@
+Desafio Pic Pay
+
+Sistema de transações e pagamentos simplificado
+
+- Linguagem/Framework
+ 	-> Java
+	-> Spring
+
+- Objetivo
+	-> Plataforma de pagamento simplificado. Onde é possível depositar e realizar transferências de dinheiro entre usuários
+	-> 2 tipo de usuário, os comuns e os lojistas, ambos têm carteira com dinheiro e realizam transferências entre eles
+
+- Backlog
+	-> Para ambos tipos de usuário, precisamos do Nome Completo, CPF, e-mail e Senha. CPF/CNPJ e e-mails devem ser únicos no sistema. Sendo assim, seu sistema deve permitir apenas um cadastro com o mesmo CPF ou endereço de e-mail
+	-> Usuários podem enviar dinheiro (efetuar transferência) para lojistas e entre usuários
+	-> Lojistas só recebem transferências, não enviam dinheiro para ninguém
+	-> Validar se o usuário tem saldo antes da transferência
+	-> Antes de finalizar a transferência, deve-se consultar um serviço autorizador 
+	-> A operação de transferência deve ser uma transação (ou seja, revertida em qualquer caso de inconsistência) e o dinheiro deve voltar para a carteira do usuário que envia
+	-> No recebimento de pagamento, o usuário ou lojista precisa receber notificação (envio de email, sms) enviada por um serviço de terceiro e eventualmente este serviço pode estar indisponível/instável
+	-> Este serviço deve ser RESTFul
+
+	-> O fluxo de transferência entre dois usuários deve seguir o contrato abaixo
+	POST /transfer
+	Content-Type: application/json
+
+	{
+  	  "value": 100.0,
+  	  "sender": 4,
+  	  "receiver": 15
+	}
+
+
+- Aplicar
+	-> SOLID
+	-> Design Patterns
+	-> uso de Cache
+	-> Containers Docker
+	-> Implementação de testes de unidade e integração
+	-> Bancos de dados relacionais e não-relacionais
+	-> Observalidade e monitoramento
+	-> Métricas, traces e logs
+	-> Implementação de mensageria
+	-> Utilização de arquiteturas de Event-sourcing, Microsserviços
+	-> Escalabilidade
+	-> Assíncrona
+	-> Autenticação 
+	-> Cadastro de usuários e lojistas
+	-> Arquitetura Cebola
+	-> Tratamento de erros 
+
+-> Serviços iniciais
+	-> Serviços de usuários
+		-> Crud
+	-> Serviço de transação
+		-> Criação de transação
+		-> validação do usuário para cada tipo de transação
+	-> Serviço de notificação
+		-> Envia um email notificando o usuário quando uma transação foi bem sucedida
+	-> Serviço de autorização
+		-> realiza autenticação e autorização dos usuários
+	-> Histórico de transações
+	-> Taxas de transações
+
+-> Relacionamentos
+	-> Um usuário pode realizar diversas transações: one to many
+	-> transação pode ser feita vários usuários: many to one
+
+-> Ferramentas
+	- Java/Spring
+		- Ferramentas do Spring cloud
+		- Spring Security
+		- Spring data jpa
+		- etc
+	- Ferramentas de observalidade, monitoramento, métricas, traces e logs
+	- Bancos de dados relacionais
+		- postgres
+		- Armazene informações dos usuários e transações.
+	- Bancos de dados não-relacionais
+		- mongo db
+		- histórico de transações (Event Sourcing), dados de perfil de usuário e egistre logs de transações
+	- Banco de dados em cache
+		- redis
+		- armazenar dados frequentemente acessados, como saldos de usuários
+
+
+		
+
+
