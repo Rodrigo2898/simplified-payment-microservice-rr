@@ -78,10 +78,12 @@ Sistema de transações e pagamentos simplificado
 		- Armazene informações dos usuários e transações.
 	- Bancos de dados não-relacionais
 		- mongo db
-		- histórico de transações (Event Sourcing), dados de perfil de usuário e egistre logs de transações
+		- histórico de transações (Event Sourcing), dados de perfil de usuário e registre logs de transações
 	- Banco de dados em cache
 		- redis
 		- armazenar dados frequentemente acessados, como saldos de usuários
+	- Ferramentas de mensageria (Kafka ou RabbitMQ) 
+		- Para comunicação assíncrona entre os microsserviços, como envio de notificações e processamento de transações em segundo plano.
 
 
 		
