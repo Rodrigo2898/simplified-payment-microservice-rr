@@ -19,4 +19,8 @@ public class UserService {
     public List<UserDomain> findAll() {
         return userRepository.findAll();
     }
+
+    public UserDomain findById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
 }

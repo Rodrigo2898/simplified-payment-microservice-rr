@@ -8,9 +8,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
@@ -32,6 +35,41 @@ class UserServiceTest {
 
     @Test
     void findAll() {
-        userService.findAll();
+        List<UserDomain> users = Instancio.stream(UserDomain.class).limit(10).toList();
+
+        when(userRepository.findAll()).thenReturn(users);
+
+        List<UserDomain> result = userService.findAll();
+
+        verify(userRepository).findAll();
+        verifyNoMoreInteractions(userRepository);
+
+        assertEquals(users, result);
+    }
+
+    @Test
+    void findById_whenUserIsFound_returnsCandidate() {
+        UserDomain userDomain = Instancio.create(UserDomain.class);
+
+        when(userRepository.findById(userDomain.id())).thenReturn(Optional.of(userDomain));
+
+        UserDomain result = userService.findById(userDomain.id());
+
+        verify(userRepository).findById(userDomain.id());
+        verifyNoMoreInteractions(userRepository);
+
+        assertEquals(userDomain, result);
+    }
+
+    @Test
+    void findById_whenUserIsNotFound_throwsException() {
+        UserDomain userDomain = Instancio.create(UserDomain.class);
+
+        when(userRepository.findById(userDomain.id())).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> userService.findById(userDomain.id()));
+
+        verify(userRepository).findById(userDomain.id());
+        verifyNoMoreInteractions(userRepository);
     }
 }
