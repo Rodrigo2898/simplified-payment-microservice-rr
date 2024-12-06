@@ -8,9 +8,10 @@ import java.util.Optional;
 public record UserDomain(Long id,
                          String firstName,
                          String lastName,
+                         String cpf,
                          String email,
                          BigDecimal balance,
-                         String cpf,
                          Optional<String> phone,
                          UserType userType) {
+
 }

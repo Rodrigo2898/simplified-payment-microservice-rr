@@ -87,5 +87,50 @@ Sistema de transações e pagamentos simplificado
 
 
 		
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Serviço de Usuários: Gerencia tudo relacionado a usuários — cadastro, autenticação, atualização de dados, verificação de saldo, etc.
+Serviço de Transações: Gerencia as transações entre usuários, incluindo validação de saldo, criação de transações e possivelmente a integração com outros serviços, como o serviço de autorização.
+
+
+Exemplo de fluxo:
+
+O Serviço de Transações recebe uma requisição de transferência.
+Ele chama o Serviço de Usuários para validar se o remetente tem saldo suficiente.
+Se a validação for bem-sucedida, o Serviço de Transações cria a transação, registrando-a no banco de dados próprio.
+O Serviço de Transações pode então enviar notificações ou gerar eventos de logs.
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+Serviço de Usuários: Responsável por autenticação, cadastro, verificação de saldo e dados do usuário.
+Serviço de Transações: Responsável pela criação e validação das transações, além de garantir que o saldo do usuário seja suficiente.
+Como isso funcionaria?
+Comunicação entre serviços: O Serviço de Transações precisará interagir com o Serviço de Usuários para obter informações sobre o saldo do usuário. Isso pode ser feito por chamadas REST ou gRPC, ou ainda por eventos de mensageria (como Kafka ou RabbitMQ) para garantir que a comunicação seja assíncrona e desacoplada.
+Fluxo de uma transação:
+
+O usuário inicia uma requisição de transferência.
+O Serviço de Transações solicita ao Serviço de Usuários que verifique o saldo do remetente.
+Se o saldo for suficiente, o Serviço de Transações cria uma nova transação e a registra.
+O Serviço de Transações também pode emitir um evento ou enviar uma notificação assíncrona via mensageria para o Serviço de Notificação.
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Utilizar EventSourcing
+Usar o MongoDB como uma forma de reter todos os eventos relacionados às transações, permitindo a reconstrução do estado do sistema com base nos eventos.
+
+Criar um Microsserviço de Histórico/Armazenamento de Eventos
+Criar um serviço separado para armazenar o histórico de transações ou os eventos, de modo a separar claramente a responsabilidade de gerenciar as transações de salvar os eventos históricos. Esse serviço pode ser responsável por processar eventos relacionados a transações e armazená-los no MongoDB.
+
+Como seria a implementação?
+Neste caso, o Serviço de Transações emitiria eventos (talvez por meio de um sistema de mensageria como RabbitMQ ou Kafka) sempre que uma transação fosse criada, e um Serviço de Histórico (ou um serviço de eventos) escutaria esses eventos e os salvaria no MongoDB.
+	 - Serviço de Transações: Sempre que uma transação é criada, um evento é enviado a uma fila de mensageria.
+	 - Serviço de Histórico/Armazenamento de Eventos: O serviço de histórico escuta esses eventos e os salva no MongoDB.
+	 - Publicação de Eventos: utilizar uma biblioteca de mensageria como Kafka ou RabbitMQ para publicar e consumir eventos.
+
 
 
