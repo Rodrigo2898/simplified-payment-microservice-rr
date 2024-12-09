@@ -1,0 +1,3 @@
+INSERT INTO tb_users (id, first_name, last_name, cpf, email, balance, phone, user_type) VALUES
+                                                                                            (1, 'Son', 'Goku', '892.767.920-23', 'goku@gmail.com', 100.25, null, 'COMMON'),
+                                                                                            (2, 'Prince', 'Vegeta', '135.881.310-86', 'vegeta@gmail.com', 200.50, '9999999', 'MERCHANT');

@@ -18,15 +18,16 @@ import java.util.Optional;
 @NoArgsConstructor
 public class UserEntity {
     @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, name = "first_name")
     private String firstName;
     @Column(nullable = false, name = "last_name")
     private String lastName;
-    @CPF(message = "Coloque um cpf válido")
+//    @CPF(message = "Coloque um cpf válido")
     private String cpf;
     @Column(nullable = false)
-    @Email(regexp = ".+[@].+[\\.].+", message = "Coloque um email válido")
+//    @Email(regexp = ".+[@].+[\\.].+", message = "Coloque um email válido")
     private String email;
     @Column(nullable = false)
     private BigDecimal balance;

@@ -5,19 +5,19 @@ import com.rr.ms.user.domain.UserQuery;
 import com.rr.ms.user.domain.UserRepository;
 import com.rr.ms.user.infrastructure.repositories.entities.UserEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JPAUserRepository implements UserRepository {
 
-    private final EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public JPAUserRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
 
     @Transactional
     @Override
@@ -30,5 +30,12 @@ public class JPAUserRepository implements UserRepository {
     @Override
     public List<UserDomain> find(UserQuery userQuery) {
         return List.of();
+    }
+
+    @Override
+    public Optional<UserDomain> findById(Long id) {
+        UserEntity user = entityManager.find(UserEntity.class, id);
+        return Optional.ofNullable(user)
+                .map(UserEntity::toDomain);
     }
 }

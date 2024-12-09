@@ -17,10 +17,5 @@ public interface UserRepository {
         return find(new UserQuery.Builder().build());
     }
 
-    default Optional<UserDomain> findById(Long id) {
-        UserQuery.Builder builder = new UserQuery.Builder();
-        builder.ids(Set.of(id));
-        UserQuery query = builder.build();
-        return find(query).stream().findFirst();
-    }
+    Optional<UserDomain> findById(Long id);
 }
