@@ -44,22 +44,21 @@ public class JPAUserRepository implements UserRepository {
 
         userQuery.ids().ifPresent(ids -> predicates.add(root.get("id").in(ids)));
 
-        // Filtra pelo campo `name`
-        userQuery.name().ifPresent(name ->
-                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"))
-        );
-
-        // Filtra pelo campo `cpf`
-        userQuery.cpf().ifPresent(cpf ->
-                predicates.add(cb.equal(root.get("cpf"), cpf))
-        );
+        userQuery.name().ifPresent(name -> predicates.add(
+                cb.or(
+                        cb.like(cb.lower(root.get("firstName")), name.toLowerCase() + "%"),
+                        cb.like(cb.lower(root.get("lastName")), name.toLowerCase() + "%")
+                )
+        ));
 
         if (!predicates.isEmpty()) {
             cq.where(predicates.toArray(new Predicate[0]));
         }
 
-        TypedQuery<UserEntity> result = entityManager.createQuery(cq);
-        return result.getResultList().stream().map(UserEntity::toDomain).toList();
+        TypedQuery<UserEntity> query = entityManager.createQuery(cq);
+        return query.getResultList().stream()
+                .map(UserEntity::toDomain)
+                .toList();
     }
 
     @Override

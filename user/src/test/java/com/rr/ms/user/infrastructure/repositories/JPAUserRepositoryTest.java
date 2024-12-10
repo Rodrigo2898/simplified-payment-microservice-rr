@@ -32,7 +32,6 @@ class JPAUserRepositoryTest extends UserRepositoryTest {
 
     @BeforeAll
     void setUp() {
-
         System.setProperty("spring.datasource.url", postgreSQLContainer.getJdbcUrl());
         System.setProperty("spring.datasource.username", postgreSQLContainer.getUsername());
         System.setProperty("spring.datasource.password", postgreSQLContainer.getPassword());

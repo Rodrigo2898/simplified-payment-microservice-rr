@@ -1,0 +1,1 @@
+CREATE CAST ( varchar AS user_type_enum ) WITH INOUT AS IMPLICIT;

@@ -9,7 +9,6 @@ import java.util.Set;
 public interface UserQuery {
     Optional<Set<Long>> ids();
     Optional<String> name();
-    Optional<String> cpf();
 
     class Builder extends UserQuery_Builder {
 

@@ -2,6 +2,7 @@ package com.rr.ms.user.infrastructure.repositories.entities;
 
 import com.rr.ms.user.domain.UserDomain;
 import com.rr.ms.user.domain.enums.UserType;
+import com.rr.ms.user.infrastructure.utils.UserTypeConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,9 @@ public class UserEntity {
     @Column(nullable = false)
     private BigDecimal balance;
     private String phone;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "user_type")
+    @Column(name = "user_type", nullable = false)
     private UserType userType;
 
     public static UserEntity fromDomain(UserDomain domain) {
