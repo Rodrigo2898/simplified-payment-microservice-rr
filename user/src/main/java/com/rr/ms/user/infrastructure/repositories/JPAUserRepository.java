@@ -51,6 +51,8 @@ public class JPAUserRepository implements UserRepository {
                 )
         ));
 
+        userQuery.cpf().ifPresent(cpf -> predicates.add(cb.equal(root.get("cpf"), cpf)));
+
         if (!predicates.isEmpty()) {
             cq.where(predicates.toArray(new Predicate[0]));
         }
