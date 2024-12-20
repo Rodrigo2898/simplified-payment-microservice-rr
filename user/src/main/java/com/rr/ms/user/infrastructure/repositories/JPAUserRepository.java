@@ -25,7 +25,6 @@ public class JPAUserRepository implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Transactional
     @Override
     public void save(List<UserDomain> users) {

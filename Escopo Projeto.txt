@@ -133,4 +133,7 @@ Neste caso, o Serviço de Transações emitiria eventos (talvez por meio de um s
 	 - Publicação de Eventos: utilizar uma biblioteca de mensageria como Kafka ou RabbitMQ para publicar e consumir eventos.
 
 
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
 
