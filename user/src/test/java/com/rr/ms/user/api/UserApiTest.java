@@ -69,7 +69,6 @@ class UserApiTest {
         assertEquals(UserResponse.fromDomain(user), response);
     }
 
-
     @Test
     void listUser() {
         var users = Instancio.stream(UserDomain.class).limit(10).toList();
@@ -86,4 +85,20 @@ class UserApiTest {
         assertEquals(users.stream().map(UserResponse::fromDomain).toList(), response);
     }
 
+    @Test
+    void findUserById() {
+        Long id = new Random().nextLong();
+        UserDomain user = Instancio.create(UserDomain.class);
+
+        when(userService.findById(id)).thenReturn(user);
+
+        var response = userApi.findById(id);
+        var userResponse = UserResponse.fromDomain(user);
+
+        verify(userService).findById(id);
+        verifyNoMoreInteractions(userService);
+
+        assertNotNull(response);
+        assertEquals(userResponse, response);
+    }
 }

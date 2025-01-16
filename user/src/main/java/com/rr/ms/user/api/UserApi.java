@@ -26,6 +26,10 @@ public class UserApi {
         return UserResponse.fromDomain(user);
     }
 
+    public UserResponse findById(Long id) {
+        return UserResponse.fromDomain(userService.findById(id));
+    }
+
     public List<UserResponse> list() {
         return userService.findAll().stream().map(UserResponse::fromDomain).toList();
     }
